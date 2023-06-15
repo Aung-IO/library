@@ -1,21 +1,14 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Navbar from "../../components/Navbar";
 
 export default function Layout() {
   return (
     <>
-    <nav>
-
- 
-    <ul>
-      <li>Home</li>
-      <li>Create</li>
-      <li>Search</li>
-    </ul>
-
-    </nav>
-    <Outlet/>
-  
+      <Navbar />
+      <div className="max-w-6xl mx-auto p-6">
+        <Outlet />
+      </div>
     </>
-  )
+  );
 }
