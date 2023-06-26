@@ -1,14 +1,14 @@
 import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
 import Navbar from "../../components/Navbar";
-import { SwitchTransition, CSSTransition } from "react-transition-group";
-import './Style.css'
+import './Style.css';
 
 
 export default function Layout() {
   
   const location = useLocation();
-  console.log(location.pathname);
+ 
 
 
   return (

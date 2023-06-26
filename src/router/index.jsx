@@ -5,6 +5,7 @@ import Create from "../pages/Create";
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
 import Search from "../pages/Search";
+import BookDetail from "../pages/BookDetail";
 import Layout from "../pages/layout/layout";
 
 
@@ -16,6 +17,10 @@ import Layout from "../pages/layout/layout";
         {
           path : "",
           element : <Home/>
+        },
+        {
+          path : "/books/:id",
+          element : <BookDetail/>
         },
         {
           path : "/Create",
