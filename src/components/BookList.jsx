@@ -1,11 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import book from '../assets/cover.png';
 import useFetch from '../hooks/useFetch';
 
 export default function BookList() {
 
-    let { data: books, loading, error } = useFetch('http://localhost:3000/books');
+  let location = useLocation();
+  let param = new URLSearchParams(location.search);
+  let search = param.get('search')
+  
+
+    let { data: books, loading, error } = useFetch(`http://localhost:3000/books${search ? `?q=${search}` : ''}`);
 
     if (error) {
         return <p>{error}</p>
@@ -13,6 +18,7 @@ export default function BookList() {
 
     return (
         <div>
+          
             {loading && <p>loading ... </p>}
             {/* book list */}
             {!!books && (

@@ -66,7 +66,7 @@ export default function Create() {
                 </div>
                 <div className='flex flex-wrap'>
                     {categories.map(c => (
-                        <span key={c} className=' text-white rounded-full px-1 py-1 text-sm bg-primary'> {c}</span>
+                        <span key={c} className=' text-white rounded-full px-2 py-1 mx-1 text-sm bg-primary'> {c}</span>
                     ))}
                 </div>
             </div>
