@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, {  useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ThemeContext } from "../contexts/ThemeContext";
+import useTheme from "../hooks/useTheme";
+
 
 export default function Navbar() {
   let [search, setSearch] = useState('');
@@ -17,7 +18,7 @@ export default function Navbar() {
     }
   }
 
-  let {theme} =useContext(ThemeContext);
+  let {theme} = useTheme()
   console.log(theme)
   return (
     <div>
