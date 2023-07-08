@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
+import useTheme from '../hooks/useTheme';
 
 export default function Create() {
     let [title, setTitle] = useState('');
@@ -36,11 +37,15 @@ export default function Create() {
         }
     }, [book])
 
+    let {isDark} = useTheme();
+
     return (
+        <div className='h-screen'>
+            
         <form className="w-full max-w-lg mx-auto mt-5" onSubmit={addBook}>
             <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full px-3">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-password">
+                    <label className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-password ${isDark ? 'text-white' : ''}`}>
                         Book Title
                     </label>
                     <input value={title} onChange={e => setTitle(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Book Title" />
@@ -48,7 +53,7 @@ export default function Create() {
             </div>
             <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full px-3">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-password">
+                    <label className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-password ${isDark ? 'text-white' : ''}`}>
                         Book Description
                     </label>
                     <textarea value={description} onChange={e => setDescription(e.target.value)} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="Book Description" />
@@ -57,7 +62,7 @@ export default function Create() {
             </div>
             <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full px-3">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-password">
+                    <label className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-password ${isDark ? 'text-white' : ''}`}>
                         Categories
                     </label>
                     <div className="flex items-center space-x-2">
@@ -84,5 +89,6 @@ export default function Create() {
                 <span className="hidden md:block">Create book</span>
             </button>
         </form>
+        </div>
     )
 }

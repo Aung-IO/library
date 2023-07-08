@@ -1,8 +1,8 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import darkIcon from "../assets/dark.svg";
+import lightIcon from "../assets/light.svg";
 import useTheme from "../hooks/useTheme";
-import lightIcon from "../assets/light.svg"
-import darkIcon from "../assets/dark.svg"
 
 export default function Navbar() {
   let [search, setSearch] = useState('');
@@ -19,20 +19,20 @@ export default function Navbar() {
     }
   }
 
-  let {theme, changeTheme} = useTheme()
+  let {isDark, changeTheme} = useTheme()
 
   return (
     <div>
-      <nav  className={`border border-b-1`}>
+      <nav  className={`border border-b-1 ${isDark ? 'bg-dbg border-primary' : 'bg-white'}`}>
         <ul className="flex justify-between items-center p-3 max-w-6xl mx-auto">
           {/* search */}
           <li className="flex item-center gap-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="none"
+              fill='none'
               viewBox="0 0 24 24"
               strokeWidth={1.5}
-              stroke="currentColor"
+              stroke={`${isDark ? 'white' : 'currentcolor'}`}
               className="w-6 h-5 my-2"
             >
               <path
@@ -47,7 +47,7 @@ export default function Navbar() {
               onChange={e => setSearch(e.target.value)}
               onKeyDown={handleKeyPress}
               type="text"
-              placeholder="search books..."
+              placeholder="Search book..."
               className="outline-none hidden md:block px-2 py-1 rounded-lg"
             />
            
@@ -70,7 +70,7 @@ export default function Navbar() {
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
-              stroke="currentColor"
+              stroke={`${isDark ? 'white' : 'currentcolor'}`}
               className="w-6 h-8"
             >
               <path
@@ -120,8 +120,8 @@ export default function Navbar() {
             </div>
 
             <div className="cursor-pointer">
-              {theme === 'dark' && <img src={lightIcon} alt="" className="w-8" onClick={() => { changeTheme('light')}}/>}
-              {theme === 'light' && <img src={darkIcon} alt="" className="w-8" onClick={() => {changeTheme('dark')}}/>}
+              {isDark && <img src={lightIcon} alt="" className="w-8" onClick={() => { changeTheme('light')}}/>}
+              {!isDark && <img src={darkIcon} alt="" className="w-8" onClick={() => {changeTheme('dark')}}/>}
             </div>
           </li>
         </ul>
