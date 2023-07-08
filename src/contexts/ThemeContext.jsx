@@ -1,6 +1,6 @@
 // ThemeContext
 
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 
 const ThemeContext = createContext();
 
@@ -22,7 +22,7 @@ const ThemeContextProvider = ({children}) => {
 
 
     let [state, dispatch] = useReducer(ThemeReducer, {
-        theme : 'light' // default state
+        theme : localStorage.getItem("theme") || "light" // Retrieve the theme from localStorage, or default to "light"
     })
 
 let changeTheme = (theme) => {
@@ -31,6 +31,10 @@ let changeTheme = (theme) => {
 }
 
 const isDark = state.theme === 'dark';
+
+useEffect( () => {
+    localStorage.setItem("theme", state.theme) // Save the current theme
+} , [state.theme])
 
     return(
         <ThemeContext.Provider value={{...state, changeTheme , isDark}}>
