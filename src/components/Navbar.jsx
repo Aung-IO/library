@@ -1,7 +1,8 @@
 import React, {  useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
-
+import lightIcon from "../assets/light.svg"
+import darkIcon from "../assets/dark.svg"
 
 export default function Navbar() {
   let [search, setSearch] = useState('');
@@ -18,11 +19,11 @@ export default function Navbar() {
     }
   }
 
-  let {theme} = useTheme()
-  console.log(theme)
+  let {theme, changeTheme} = useTheme()
+
   return (
     <div>
-      <nav className={`border border-b-1 ${theme === 'dark' ? 'bg-black' : 'bg-slate-200' }`}>
+      <nav  className={`border border-b-1`}>
         <ul className="flex justify-between items-center p-3 max-w-6xl mx-auto">
           {/* search */}
           <li className="flex item-center gap-3">
@@ -32,7 +33,7 @@ export default function Navbar() {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-6 h-6"
+              className="w-6 h-5 my-2"
             >
               <path
                 strokeLinecap="round"
@@ -47,7 +48,7 @@ export default function Navbar() {
               onKeyDown={handleKeyPress}
               type="text"
               placeholder="search books..."
-              className="outline-none hidden md:block"
+              className="outline-none hidden md:block px-2 py-1 rounded-lg"
             />
            
             <button
@@ -116,6 +117,11 @@ export default function Navbar() {
                 alt=""
                 className="w-full rounded-full"
               />
+            </div>
+
+            <div className="cursor-pointer">
+              {theme === 'dark' && <img src={lightIcon} alt="" className="w-8" onClick={() => { changeTheme('light')}}/>}
+              {theme === 'light' && <img src={darkIcon} alt="" className="w-8" onClick={() => {changeTheme('dark')}}/>}
             </div>
           </li>
         </ul>
