@@ -4,6 +4,9 @@ import { Link, useLocation } from "react-router-dom";
 import book from "../assets/cover.png";
 import { db } from "../firebase";
 import useTheme from "../hooks/useTheme";
+import LoadingAnimation from "./LoadingAnimation";
+
+
 
 export default function BookList() {
 
@@ -36,7 +39,9 @@ export default function BookList() {
 
   return (
     <div>
-      {loading && <p>loading ... </p>}
+
+
+      {loading && <LoadingAnimation/>}
       {/* book list */}
 
       {!!books && (

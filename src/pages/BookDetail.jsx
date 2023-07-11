@@ -1,8 +1,10 @@
 import React from "react";
+
 import { useParams } from "react-router";
 import bookImg from "../assets/cover.png";
 import useFetch from "../hooks/useFetch";
 import useTheme from "../hooks/useTheme";
+import LoadingAnimation from "../components/LoadingAnimation";
 
 export default function BookDetail() {
   let { id } = useParams();
@@ -16,7 +18,7 @@ export default function BookDetail() {
   return (
     <>
       {error && <p>{error}</p>}
-      {loading && <p>Loading...</p>}
+      {loading && <LoadingAnimation/>}
 
       {book && (
          <div className={`grid grid-cols-2 h-screen ${isDark ? 'text-white' : ''}`}>
