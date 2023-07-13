@@ -2,26 +2,43 @@ import React from "react";
 
 import { useParams } from "react-router";
 import bookImg from "../assets/cover.png";
-import useFetch from "../hooks/useFetch";
 import useTheme from "../hooks/useTheme";
 import LoadingAnimation from "../components/LoadingAnimation";
+import { useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 export default function BookDetail() {
   let { id } = useParams();
-  let {
-    data: book,
-    loading,
-    error,
-  } = useFetch(`http://localhost:3000/books/${id}`);
+  let [error, setError] = useState("");
+  let [book, setBook] = useState(null);
+  let [loading, setLoading] = useState(false);
 
-  let {isDark} = useTheme();
+  useState(() => {
+    setLoading(true);
+    let ref = doc(db, "books", id);
+    getDoc(ref).then((doc) => {
+      if (doc.exists()) {
+        let book = { id: doc.id, ...doc.data() };
+        setBook(book);
+        setLoading(false);
+      } else {
+        setError("Document not found");
+        setLoading(false)
+      }
+    });
+  }, [id]);
+
+  let { isDark } = useTheme();
   return (
     <>
       {error && <p>{error}</p>}
-      {loading && <LoadingAnimation/>}
+      {loading && <LoadingAnimation />}
 
       {book && (
-         <div className={`grid grid-cols-2 h-screen ${isDark ? 'text-white' : ''}`}>
+        <div
+          className={`grid grid-cols-2 h-screen ${isDark ? "text-white" : ""}`}
+        >
           <div>
             <img src={bookImg} alt="" className="w-[80%]" />
           </div>
