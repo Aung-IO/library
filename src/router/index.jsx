@@ -1,11 +1,11 @@
 import {
   createBrowserRouter
 } from "react-router-dom";
-import Create from "../pages/Create";
+import BookDetail from "../pages/BookDetail";
+import BookForm from "../pages/BookForm";
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
 import Search from "../pages/Search";
-import BookDetail from "../pages/BookDetail";
 import Layout from "../pages/layout/layout";
 
 
@@ -23,11 +23,15 @@ import Layout from "../pages/layout/layout";
           element : <BookDetail/>
         },
         {
-          path : "/Create",
-          element : <Create/>
+          path : "/create",
+          element : <BookForm/>
         },
         {
-          path : "/Search",
+          path : "/edit/:id",
+          element : <BookForm/>
+        },
+        {
+          path : "/search",
           element : <Search/>
         },
        {

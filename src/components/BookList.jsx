@@ -2,6 +2,7 @@ import { collection, deleteDoc, doc, getDocs, orderBy, query } from "firebase/fi
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import book from "../assets/cover.png";
+import edit from "../assets/edit.svg";
 import trash from "../assets/trash.svg";
 import { db } from "../firebase";
 import useTheme from "../hooks/useTheme";
@@ -71,8 +72,11 @@ export default function BookList() {
                                             <span key={c} className='mx-1 my-1 text-white rounded-full px-2 py-1 text-sm bg-blue-500'> {c}</span>
                                         ))}
                                     </div>
-                                    <div onClick={(e) => deleteBook(e, b.id)} >
-                                        <img src={trash} alt=""  />
+                                    <div className="flex space-x-2">
+                                       <Link to={`/edit/${b.id}`}>
+                                       <img src={edit} alt="" />
+                                       </Link>
+                                        <img src={trash} alt="" onClick={(e) => deleteBook(e, b.id)} />
                                     </div>
                                 </div>
                             </div>
