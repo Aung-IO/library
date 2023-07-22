@@ -12,8 +12,10 @@ export default function Login() {
   let signInUser = async (e) => {
     e.preventDefault();
     let user = await signIn(email, password);
-
-    navigate("/");
+    
+    if (user) {
+      navigate('/');
+    }
   };
 
   return (
@@ -59,7 +61,7 @@ export default function Login() {
           </div>
           <div className="flex items-center justify-between">
             <button
-              className="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="flex items-center bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
               {loading && (
