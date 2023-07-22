@@ -69,7 +69,7 @@ export default function Register() {
           </div>
         </form>
         <p className="text-center text-gray-500 text-xs">
-          &copy;2023 WayneCorp. All rights reserved.
+          &copy;2023 Wayne Corp. All rights reserved.
         </p>
       </div>
     </>
