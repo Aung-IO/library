@@ -6,6 +6,8 @@ import BookForm from "../pages/BookForm";
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
 import Search from "../pages/Search";
+import Register from "../pages/Register";
+import Login from "../pages/Login";
 import Layout from "../pages/layout/layout";
 
 
@@ -34,6 +36,15 @@ import Layout from "../pages/layout/layout";
           path : "/search",
           element : <Search/>
         },
+        {
+          path : "/register",
+          element : <Register/>
+        },
+        {
+          path : "/login",
+          element : <Login/>
+        },
+       
        {
         path : "*",
         element : <NotFound/>
