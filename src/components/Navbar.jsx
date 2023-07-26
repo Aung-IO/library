@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import darkIcon from "../assets/dark.svg";
 import lightIcon from "../assets/light.svg";
+<<<<<<< HEAD
 import logIn from "../assets/login.svg";
+=======
+import useSignOut from "../hooks/useSignOut";
+>>>>>>> 9dccfcb3d050684704154c77c0e06befb18888f0
 import useTheme from "../hooks/useTheme";
 
 export default function Navbar() {
@@ -17,7 +21,17 @@ export default function Navbar() {
     if (e.key === "Enter") {
       handleSearch();
     }
+<<<<<<< HEAD
   };
+=======
+  }
+  
+  let {logOut} = useSignOut();
+  let signOutUser = async () => {
+await logOut()
+navigate('/login');
+  }
+>>>>>>> 9dccfcb3d050684704154c77c0e06befb18888f0
 
   let { isDark, changeTheme } = useTheme();
   let [isLogIn, setIsLogIn] = useState(false);
@@ -154,6 +168,8 @@ export default function Navbar() {
                 />
               )}
             </div>
+
+            <button onClick={signOutUser} className="bg-red-500 text-white rounded-lg px-2 py-1">SignOut</button>
           </li>
         </ul>
       </nav>
