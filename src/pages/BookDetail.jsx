@@ -5,7 +5,7 @@ import bookImg from "../assets/cover.png";
 import useTheme from "../hooks/useTheme";
 import LoadingAnimation from "../components/LoadingAnimation";
 import { useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 
 export default function BookDetail() {
@@ -17,16 +17,16 @@ export default function BookDetail() {
   useState(() => {
     setLoading(true);
     let ref = doc(db, "books", id);
-    getDoc(ref).then((doc) => {
-      if (doc.exists()) {
-        let book = { id: doc.id, ...doc.data() };
-        setBook(book);
-        setLoading(false);
-      } else {
-        setError("Document not found");
-        setLoading(false)
-      }
-    });
+   onSnapshot(ref, (doc) => {
+    if (doc.exists()) {
+      let book = { id: doc.id, ...doc.data() };
+      setBook(book);
+      setLoading(false);
+    } else {
+      setError("Document not found");
+      setLoading(false)
+    }
+  })
   }, [id]);
 
   let { isDark } = useTheme();

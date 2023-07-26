@@ -1,4 +1,4 @@
-import { collection, deleteDoc, doc, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import book from "../assets/cover.png";
@@ -21,14 +21,14 @@ export default function BookList() {
     let ref = doc(db, "books", id);
     console.log(ref);
      deleteDoc(ref);
-    setBooks(prev => prev.filter(b => b.id !== id));
+   
 }
 
   useEffect(function () {
     setLoading(true);
     let ref = collection(db, "books");
     let q = query(ref, orderBy("date", "desc"));
-    getDocs(q).then((docs) => {
+    onSnapshot(q , (docs) => {
       if (docs.empty) {
         setError("Oops... Nothing Here !");
         setLoading(false);
@@ -43,7 +43,7 @@ export default function BookList() {
         setLoading(false);
         setError("");
       }
-    });
+    })
   }, []);
 
   if (error) {
