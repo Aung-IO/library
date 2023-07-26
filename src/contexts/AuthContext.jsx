@@ -1,13 +1,36 @@
-import { createContext } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import React, { createContext, useEffect, useReducer } from "react";
+import { auth } from '../firebase';
 
 let AuthContext = createContext();
 
-import React from 'react';
+let AuthReducer = (state, action) => {
+  switch (action.type) {
+    case "LOG_IN":
+      return { ...state, user: action.payload };
+    case "LOG_OUT":
+      return { ...state, user: null };
 
-export default function AuthContextProvider({children}) {
-  return (
-    <AuthContext.Provider value={{user: null}}>{children}</AuthContext.Provider>
-  )
+    default:
+      return state;
+  }
+};
+
+
+export default function AuthContextProvider({ children }) {
+  let [state, dispatch] = useReducer(AuthReducer, { user: null });
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        dispatch({ type:"LOG_IN", payload:user });
+      } else {
+        dispatch({ type:"LOG_OUT" });
+      }
+    });
+  },[]);
+
+  return <AuthContext.Provider value={state}>{children}</AuthContext.Provider>;
 }
 
 export { AuthContext, AuthContextProvider };

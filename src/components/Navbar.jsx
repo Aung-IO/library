@@ -139,7 +139,7 @@ navigate('/login');
             <Link to={'/login'} className="border-2 border-primary rounded-lg px-2 py-1">SignIn</Link>
             <Link to={'/register'} className="bg-primary text-white rounded-lg px-2 py-1">Register</Link>
           </>}
-           { !!user &&  <Link onClick={signOutUser} className="bg-red-500 text-white rounded-lg px-2 py-1">SignOut</Link>}
+           {!!user &&  <Link onClick={signOutUser} className="bg-red-500 text-white rounded-lg px-2 py-1">SignOut</Link>}
         </div>
           </li>
         </ul>
