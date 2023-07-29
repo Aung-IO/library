@@ -1,57 +1,62 @@
-import {
-  createBrowserRouter
-} from "react-router-dom";
+import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
 import BookDetail from "../pages/BookDetail";
 import BookForm from "../pages/BookForm";
 import Home from "../pages/Home";
-import NotFound from "../pages/NotFound";
-import Search from "../pages/Search";
-import Register from "../pages/Register";
 import Login from "../pages/Login";
+import NotFound from "../pages/NotFound";
+import Register from "../pages/Register";
+import Search from "../pages/Search";
 import Layout from "../pages/layout/layout";
 
+import React, { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 
+export default function index() {
+  
+  let { authReady, user } = useContext(AuthContext);
+
+  let isAuthenticated = Boolean(user);
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Layout/>,
-      children : [
+      element: <Layout />,
+      children: [
         {
-          path : "",
-          element : <Home/>
+          path: "",
+          element: isAuthenticated ? <Home /> : <Navigate to="/login"/>,
         },
         {
-          path : "/books/:id",
-          element : <BookDetail/>
+          path: "/books/:id",
+          element: isAuthenticated ? <BookDetail /> : <Navigate to="/login"/>,
         },
         {
-          path : "/create",
-          element : <BookForm/>
+          path: "/create",
+          element: isAuthenticated ? <BookForm /> : <Navigate to="/login"/>,
         },
         {
-          path : "/edit/:id",
-          element : <BookForm/>
+          path: "/edit/:id",
+          element: isAuthenticated ? <BookForm /> : <Navigate to="/login"/>,
         },
         {
-          path : "/search",
-          element : <Search/>
+          path: "/search",
+          element: isAuthenticated ? <Search /> : <Navigate to="/login"/>,
         },
         {
-          path : "/register",
-          element : <Register/>
+          path: "/register",
+          element: !isAuthenticated ? <Register /> : <Navigate to="/"/>,
         },
         {
-          path : "/login",
-          element : <Login/>
+          path: "/login",
+          element:!isAuthenticated ?  <Login /> : <Navigate to="/"/>,
         },
-       
-       {
-        path : "*",
-        element : <NotFound/>
-       }
 
-      ]
+        {
+          path: "*",
+          element: <NotFound />,
+        },
+      ],
     },
   ]);
 
-  export default router
+  return( authReady && <RouterProvider router={router} />);
+}
