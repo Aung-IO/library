@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import book from "../assets/cover.png";
 import edit from "../assets/edit.svg";
 import trash from "../assets/trash.svg";
+import { AuthContext } from "../contexts/AuthContext";
 import useFirestore from "../hooks/useFirestore";
 import useTheme from "../hooks/useTheme";
 
@@ -12,7 +13,9 @@ export default function BookList() {
   let search = params.get("search");
 
   let { getCollection , deleteDocument} = useFirestore();
-  let { error, loading, data: books } = getCollection('books');
+  // book -> uid == auth.user.uid
+  let {user} = useContext(AuthContext);
+  let { error, loading, data: books } = getCollection('books',['uid','==',user.uid]);
 
   let deleteBook = async(e, id) => {
     e.preventDefault();
