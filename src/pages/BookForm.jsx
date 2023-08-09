@@ -13,6 +13,8 @@ export default function Create() {
   let [description, setDescription] = useState("");
   let [newCategory, setNewCategory] = useState("");
   let [categories, setCategories] = useState([]);
+  let [file, setFile] = useState(null);
+  let [preview, setPreview] = useState('');
   let [isEdit, setIsEdit] = useState(false);
   let { addCollection, updateDocument } = useFirestore();
 
@@ -50,6 +52,24 @@ export default function Create() {
   };
 
  let {user} = useContext(AuthContext);
+
+ let handlePhotoChange = (e) => {
+  setFile(e.target.files[0]);
+ }
+let handlePreviewImage = (file) => {
+  let reader = new FileReader;
+  reader.readAsDataURL(file);
+
+  reader.onload = () => {
+   setPreview(reader.result);
+  }
+}
+
+ useEffect( () => {
+if (file) {
+handlePreviewImage(file)
+}
+ },[file])
 
   let submitForm = async (e) => {
     e.preventDefault();
@@ -165,6 +185,18 @@ export default function Create() {
             ))}
           </div>
         </div>
+        {/* image input */}
+        <div className="w-full px-3 my-3">
+            <label
+              className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-password ${
+                isDark ? "text-white" : ""
+              }`}
+            >
+              Book Title
+            </label>
+            <input type="file" name="" id="" onChange={handlePhotoChange} />
+            {!!preview && <img src={preview} alt="" className='my-3' width={500} height={500}/>}
+          </div>
         {/* create book */}
         <button className="text-white bg-primary px-3 py-2 rounded-2xl flex justify-center items-center gap-1 w-full">
           <svg
