@@ -1,7 +1,6 @@
 import React from "react";
 
 import { useParams } from "react-router";
-import bookImg from "../assets/cover.png";
 import LoadingAnimation from "../components/LoadingAnimation";
 import useTheme from "../hooks/useTheme";
 
@@ -23,7 +22,7 @@ export default function BookDetail() {
           className={`grid grid-cols-2 h-screen ${isDark ? "text-white" : ""}`}
         >
           <div>
-            <img src={bookImg} alt="" className="w-[80%]" />
+            <img src={book.cover} alt="" className="w-[80%]" />
           </div>
           <div className="space-y-4">
             <h1 className="text-3xl font-bold">{book.title}</h1>

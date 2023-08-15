@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import book from "../assets/cover.png";
 import edit from "../assets/edit.svg";
 import trash from "../assets/trash.svg";
 import { AuthContext } from "../contexts/AuthContext";
@@ -41,7 +40,7 @@ export default function BookList() {
                   isDark ? "text-white bg-dcard border-primary" : ""
                 }`}
               >
-                <img src={book} alt="" />
+                <img src={b.cover} alt="" />
                 <div className="text-center space-y-2 mt-3">
                   <h1>{b.title}</h1>
                   <p>{b.description}</p>

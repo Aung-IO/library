@@ -1,8 +1,9 @@
 import { doc, onSnapshot } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
 import useFirestore from "../hooks/useFirestore";
 import useTheme from "../hooks/useTheme";
 
@@ -14,9 +15,10 @@ export default function Create() {
   let [newCategory, setNewCategory] = useState("");
   let [categories, setCategories] = useState([]);
   let [file, setFile] = useState(null);
-  let [preview, setPreview] = useState('');
+  let [preview, setPreview] = useState("");
   let [isEdit, setIsEdit] = useState(false);
   let { addCollection, updateDocument } = useFirestore();
+  let { user } = useContext(AuthContext);
 
   useEffect(() => {
     //edit form
@@ -51,33 +53,44 @@ export default function Create() {
     setNewCategory("");
   };
 
- let {user} = useContext(AuthContext);
 
- let handlePhotoChange = (e) => {
-  setFile(e.target.files[0]);
- }
-let handlePreviewImage = (file) => {
-  let reader = new FileReader;
-  reader.readAsDataURL(file);
 
-  reader.onload = () => {
-   setPreview(reader.result);
+  let handlePhotoChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+  let handlePreviewImage = (file) => {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      setPreview(reader.result);
+    };
+  };
+
+  useEffect(() => {
+    if (file) {
+      handlePreviewImage(file);
+    }
+  }, [file]);
+
+  let uploadFileToFirebase =  async(file) => {
+    let uniqueFileName = Date.now().toString() + '_' + file.name
+    let path = 'cover/'+user.uid+'/'+uniqueFileName;
+    let storageRef = ref(storage, path);
+    await uploadBytes(storageRef, file);
+    return await getDownloadURL(storageRef);
   }
-}
-
- useEffect( () => {
-if (file) {
-handlePreviewImage(file)
-}
- },[file])
 
   let submitForm = async (e) => {
     e.preventDefault();
+    let url = await uploadFileToFirebase(file)
+    console.log(url);
     let data = {
       title,
       description,
       categories,
-      uid:user.uid
+      uid:user.uid,
+      cover:url
     };
     if (isEdit) {
       await updateDocument("books", id, data);
@@ -187,16 +200,24 @@ handlePreviewImage(file)
         </div>
         {/* image input */}
         <div className="w-full px-3 my-3">
-            <label
-              className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-password ${
-                isDark ? "text-white" : ""
-              }`}
-            >
-              Book Title
-            </label>
-            <input type="file" name="" id="" onChange={handlePhotoChange} />
-            {!!preview && <img src={preview} alt="" className='my-3' width={500} height={500}/>}
-          </div>
+          <label
+            className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-password ${
+              isDark ? "text-white" : ""
+            }`}
+          >
+            Book Title
+          </label>
+          <input type="file" name="" id="" onChange={handlePhotoChange} />
+          {!!preview && (
+            <img
+              src={preview}
+              alt=""
+              className="my-3"
+              width={500}
+              height={500}
+            />
+          )}
+        </div>
         {/* create book */}
         <button className="text-white bg-primary px-3 py-2 rounded-2xl flex justify-center items-center gap-1 w-full">
           <svg
