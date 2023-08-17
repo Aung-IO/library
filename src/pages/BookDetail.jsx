@@ -5,6 +5,7 @@ import LoadingAnimation from "../components/LoadingAnimation";
 import useTheme from "../hooks/useTheme";
 
 import NoteForm from "../components/NoteForm";
+import NoteList from "../components/NoteList";
 import useFirestore from "../hooks/useFirestore";
 
 export default function BookDetail() {
@@ -47,25 +48,7 @@ export default function BookDetail() {
             </h3>
             <NoteForm/>
 
-            <div className="border-2 shadow-md p-3 my-3">
-              <div className="flex space-x-3">
-                <img
-                  src="https://media.istockphoto.com/id/1284693553/vector/anonymous-vector-icon-incognito-sign-privacy-concept-human-head-with-glitch-face-personal.jpg?s=612x612&w=0&k=20&c=7rAGNOUEM9B_J3NYPS4j0uYPwZlX0hebFKUhG65b4vI="
-                  alt=""
-                  className="w-12 h-12 rounded-full"
-                />
-                <div>
-                  <h3>Aung Pyae Kyaw</h3>
-                  <div className="text-gray-400">8/15/2023</div>
-                </div>
-              </div>
-              <div className="mt-3">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptatem quidem debitis totam mollitia modi ad dolores ut
-                architecto natus. Quibusdam fugiat magni excepturi aut esse ex
-                minima consequatur eveniet et.
-              </div>
-            </div>
+          <NoteList/>
           </div>
         </>
       )}

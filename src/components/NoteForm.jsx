@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import useFirestore from "../hooks/useFirestore";
+import useTheme from "../hooks/useTheme";
 
 export default function NoteForm() {
   let [body, setBody] = useState("");
   let { id } = useParams();
-  let {addCollection} = useFirestore();
+  let { addCollection } = useFirestore();
+  let { isDark } = useTheme();
 
   let addNote = async (e) => {
     e.preventDefault();
@@ -13,39 +15,72 @@ export default function NoteForm() {
       body,
       bookId: id,
     };
-    await addCollection('notes',data);
-    setBody('');
+    await addCollection("notes", data);
+    setBody("");
   };
 
   return (
-    <form onSubmit={addNote}>
-      <textarea
-        className="bg-gray-50 w-full shadow-md p-3 border-2"
-        name=""
-        id=""
-        cols="30"
-        rows="5"
-        value={body}
-        onChange={(e) => setBody(e.target.value)}
-      ></textarea>
-      <button className="text-white bg-primary px-3 py-2 rounded-lg flex items-center gap-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-6 h-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+    <div
+      className={`flex flex-col border-1 mt-4 rounded-lg min-w-[600px] ${
+        isDark ? "bg-dcard" : " bg-slate-50"
+      }  `}
+    >
+      {/* text */}
+      <div
+        className={`text-center font-bold py-3 ${isDark ? "text-white" : ""}`}
+      >
+        Share your thoughts here
+      </div>
+      <div className="flex justify-center mx-4">
+        {/* profile */}
+        <div>
+          <img
+            src="https://d27v83ov1up738.cloudfront.net/user-profiles/zZR327gfuRcilZzkHjPyRIam50MpjeUoyVnGpy4W.jpg"
+            alt=""
+            className="w-12 h-12 rounded-full "
           />
-        </svg>
+        </div>
+        {/* text-area */}
+        <div>
+          <form onSubmit={addNote} className="flex flex-col mx-3">
+            <div>
+             
 
-        <span className="hidden md:block">Add Note</span>
-      </button>
-    </form>
+              <textarea
+                className={`w-full shadow-md p-3 border-2 mt-5 rounded-lg ${
+                  isDark ? "bg-slate-900 text-white border-none" : ""
+                }`}
+                name=""
+                id=""
+                cols="100"
+                rows="6"
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+                placeholder="Write a comment..."
+              ></textarea>
+            </div>
+            <div className="form-check my-3">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  id="notify"
+                />
+                <label
+                  className={`form-check-label text-center font-bold mx-2  ${
+                    isDark ? "text-white" : ""
+                  }`}
+                >
+                  Subscribe to get a notify
+                </label>
+              </div>
+            <div className="flex justify-end mt-3 my-4">
+              <button className="text-white bg-primary px-3 py-2 rounded-lg flex items-center gap-2">
+                <span className="px-2 py-1">Post</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 }
