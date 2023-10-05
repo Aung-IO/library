@@ -10,3 +10,8 @@ npm i firebase
 npm install moment
 
 npm start
+
+---- Firebase connection ---
+create new firestore
+create new authentication
+create new storage
