@@ -36,7 +36,7 @@ export default function BookList() {
           {books.map((b) => (
             <Link to={`/books/${b.id}`} key={b.id}>
               <div
-                className={`p-4 border border-1 min-h-[420px] ${
+                className={`p-4 border border-1 min-h-[460px] ${
                   isDark ? "text-white bg-dcard border-primary" : ""
                 }`}
               >
