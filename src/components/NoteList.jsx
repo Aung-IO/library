@@ -1,14 +1,18 @@
 import moment from "moment/moment";
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import pencilIcon from "../assets/pencil.svg";
 import trashIcon from "../assets/trash.svg";
 import useFirestore from "../hooks/useFirestore";
 import useTheme from "../hooks/useTheme";
+import EditNoteForm from "./EditNoteForm";
+
 
 export default function NoteList() {
   let { getCollection, deleteDocument } = useFirestore();
   let { id } = useParams();
   let { isDark } = useTheme();
+  let [ editNote, setEditNote] = useState(null);
   let {
     error,
     loading,
@@ -48,12 +52,23 @@ export default function NoteList() {
                         {moment(note?.date?.seconds * 1000).fromNow()}
                       </div>
                     </div>
-                    <div onClick={() => deleteNote(note.id)}>
-                      <img src={trashIcon} />
+                    <div className="flex space-x-2">
+                      <img
+                        onClick={() => setEditNote(note)}
+                        src={pencilIcon}
+                        className="cursor-pointer"
+                      />
+                      <img
+                        onClick={() => deleteNote(note.id)}
+                        src={trashIcon}
+                        className="cursor-pointer"
+                      />
                     </div>
                   </div>
 
-                  <div className="mt-3">{note.body}</div>
+                  {editNote?.id !== note.id && <div className="mt-3">{note.body}</div>}
+                 {editNote?.id == note.id && <EditNoteForm setEditNote={setEditNote} type='update' editNote={editNote}/>}
+                 
                 </div>
               </div>
             </div>
